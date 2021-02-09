@@ -1,0 +1,189 @@
+1.
+
+> use restaurant
+> db.restaurant.find()
+
+____
+
+2.
+
+> db.restaurant.find({}, {restaurant_id: "$restaurant_id", name: "$name", borough: "$borough", cuisine: "$cuisine"})
+
+_____
+
+3.
+
+> db.restaurant.find({}, {_id: 0, restaurant_id: "$restaurant_id", name: "$name", borough: "$borough", cuisine: "$cuisine"})
+
+_____
+
+4. 
+
+> db.restaurant.find({}, {_id: 0, restaurant_id: "$restaurant_id", name: "$name", borough: "$borough", zipcode: "$address.zipcode"})
+
+_____
+
+5.
+
+> db.restaurant.find({borough: "Bronx"})
+
+_____
+
+6.
+
+> db.restaurant.find({borough: "Bronx"}).limit(5)
+
+_____
+
+7. 
+
+> db.restaurant.find({borough: "Bronx"}).skip(5).limit(5)
+
+_____
+
+8. 
+
+> db.restaurant.find({"grades.score": {$gt: 90}})
+
+_____
+
+9. 
+
+> db.restaurant.find({grades: {$elemMatch: {score: {$gt: 80, $lt: 100 }}}})
+
+_____
+
+10.
+
+> db.restaurant.find({"address.coord": {$lt: -95.754168 }})
+
+_____
+
+11. 
+
+> db.restaurant.find({$and: [{cuisine: {$not: {$regex: "American"}}, "grades.score": {$gt: 70}, "address.coord": {$lt: -65.754168 }}]})
+
+_____
+
+12.
+
+> db.restaurant.find({cuisine: {$not: {$regex: "American"}}, "grades.score": {$gt: 70}, "address.coord": {$lt: -65.754168 }})
+
+_____
+
+13.
+
+> db.restaurant.find({cuisine: {$not: {$regex: "American"}}, "grades.grade": "A", borough: {$not: {$regex: "Brooklyn"}}}).sort({cuisine: -1})
+
+____
+
+14.
+
+> db.restaurant.find({name: {$regex: /^Wil/}}, {_id: 0, restaurant_id: "$restaurant_id", name: "$name", borough: "$borough", cuisine: "$cuisine"})
+_____
+
+15.
+
+> db.restaurant.find({name: {$regex: /ces$/}}, {_id: 0, restaurant_id: "$restaurant_id", name: "$name", borough: "$borough", cuisine: "$cuisine"})
+
+_____
+
+16. 
+
+> db.restaurant.find({name: {$regex: /.*Reg.*/}}, {_id: 0, restaurant_id: "$restaurant_id", name: "$name", borough: "$borough", cuisine: "$cuisine"})
+
+_____
+
+17.
+
+> db.restaurant.find({borough: "Bronx", cuisine: {$in: ["American ", "Chinese"]}})
+
+_____
+
+18.
+
+> db.restaurant.find({borough: {$in: ["Staten Island", "Queens", "Bronx", "Brooklyn"]}}, {_id: 0, restaurant_id: "$restaurant_id", name: "$name", borough: "$borough", cuisine: "$cuisine"}).sort({borough:1})
+
+_____
+
+19. 
+
+> db.restaurant.find({borough: {$nin: ["Staten Island", "Queens", "Bronx", "Brooklyn"]}}, {_id: 0, restaurant_id: "$restaurant_id", name: "$name", borough: "$borough", cuisine: "$cuisine"}).sort({borough:-1})
+
+_____
+
+20. 
+
+> db.restaurant.find({$nor: [{"grades.score": {$gt: 10}}]})
+_____
+
+21. 
+
+> db.restaurant.find({$and: [{$or: [{cuisine: "Seafood"}, {$and: [{name: {$regex: /.*Fish.*/}}, {cuisine: {$nin: ["American ", "Chinese"]}}]}]}, {name: {$not: {$regex: /^Wil/}}}]}, {_id: 0, restaurant_id: "$restaurant_id", name: "$name", borough: "$borough", cuisine: "$cuisine"})
+
+_____
+
+22.
+
+> db.restaurant.find({grades: {$all: [{$elemMatch: {"grade": "A", "score": 11, "date": ISODate("2014-08-11T00:00:00Z")}}]}}, {_id: 0, restaurant_id: "$restaurant_id", name: "$name", grades: "$grades"})
+
+_____
+
+23.
+
+> db.restaurant.find({$and: [{"grades.1.grade": "A"}, {"grades.1.score": 9}, {"grades.1.date": ISODate("2014-08-11T00:00:00Z")}]}, {_id: 0, restaurant_id: "$restaurant_id", name: "$name", grades: "$grades"})
+
+
+____
+
+24.
+
+> db.restaurant.find({"address.coord.1": {$gt: 42, $lt: 52 }}, {_id: 0, restaurant_id: "$restaurant_id", name: "$name", address: "$address", coord: "$coord"})
+_____
+
+25.
+
+> db.restaurant.find({}).sort({name:1, address: 1, borough: 1, cuisine: 1, grades: 1, restaurant_id: 1})
+
+_____
+
+26. 
+
+> db.restaurant.find({}).sort({name:-1, address: -1, borough: -1, cuisine: -1, grades: -1, restaurant_id: -1})
+
+_____
+
+27.
+
+> db.restaurant.find({}).sort({cuisine: 1, borough: -1})
+
+_____
+
+28.
+
+> db.restaurant.find({"address.street": null})
+
+_____
+
+29. 
+
+> db.restaurant.find({"address.coord": {$type: 1}})
+
+_____
+
+30. 
+
+> db.restaurant.find({"grades.score": {$mod: [7, 0]}}, {_id: 0, restaurant_id: "$restaurant_id", name: "$name", grades: "$grades"})
+
+
+_____
+
+31. 
+
+> db.restaurant.find({"name": {$regex: /.*mon.*/}}, {_id: 0, name: "$name", borough: "$borough", long: {$slice: ["$address.coord",1]}, lat: {$slice: ["$address.coord", 1, 1]}, cuisine: "$cuisine"})
+
+_____
+
+32.
+
+> db.restaurant.find({"name": {$regex: /^Mad/}}, {_id: 0, name: "$name", borough: "$borough", long: {$slice: ["$address.coord",1]}, lat: {$slice: ["$address.coord", 1, 1]}, cuisine: "$cuisine"})
